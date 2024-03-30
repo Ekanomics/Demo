@@ -17,13 +17,12 @@ def divide (a, b):
         return a // b
 #деление
 
+print("Welcome, please try my calculator")
 
-def main():
-    print("Welcome, please try my calculator")
+
+def calculate(operation):
 
     try:
-        operation = input("Enter operation: ")
-
         parts = operation.split()
         if len(parts) != 3:
             raise ValueError("Incorrect format")
@@ -39,17 +38,25 @@ def main():
             raise ValueError("Incorrect operator")
 
         if operator == '+':
-            print("Result is:", add(num1, num2))
+            return str(add(num1, num2))
         elif operator == '-':
-            print("Result is:", subtract(num1, num2))
+            return str(subtract(num1, num2))
         elif operator == '*':
-            print("Result is:", multiplication(num1, num2))
+            return str(multiplication(num1, num2))
         elif operator == '/':
-            print("Result is:", divide(num1, num2))
+            return str(divide(num1, num2))
 
     except ValueError as e:
-        print("throws exception:", e)
+        raise e
 
+def main(input_str):
+    return calculate(input_str)
 
 if __name__ == "__main__":
-    main()
+    while True:
+        try:
+            operation = input("Enter operation: ")
+            result = main(operation)
+            print("Result is:", result)
+        except ValueError as e:
+            print("throws exception: ", e)
