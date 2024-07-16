@@ -129,9 +129,9 @@
 
 # - 8.4 - Часть 4: объединение нескольких dataframe
 
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import numpy as np
 
 # pd.options.display.max_rows = 7
 # plt.style.use('ggplot')
