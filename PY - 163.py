@@ -179,7 +179,7 @@
 
 
 
-# - 8.5 - Часть 4: объединение нескольких dataframe
+# - 8.5 - Часть 4: ищем самый снежный месяц
 
 # import pandas as pd
 # import matplotlib.pyplot as plt
