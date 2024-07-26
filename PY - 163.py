@@ -179,7 +179,7 @@
 
 
 
-# - 8.5 - Часть 4: ищем самый снежный месяц
+# - 8.5 - Часть 5: ищем самый снежный месяц
 
 # import pandas as pd
 # import matplotlib.pyplot as plt
@@ -235,3 +235,87 @@
 # # Разделим 2 графика
 # stats.plot(kind='bar', subplots=True, figsize=(15, 10))
 # plt.show()
+
+
+
+# - 8.6 - Часть 6: работа с загрязненными данными
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import numpy as np
+#
+# pd.options.display.max_rows = 7
+# plt.style.use('ggplot')
+# plt.rcParams['figure.figsize'] = (15, 3)
+# plt.rcParams['font.family'] = 'sans-serif'
+#
+# requests = pd.read_csv('C:/Users/User/Desktop/Coding/Projects/27.03.2024 pp/311-service-requests.csv', low_memory=False)
+#
+# requests['Incident Zip'].unique()
+#
+# na_values = ['NO CLUE', 'N/A', '0']
+# requests = pd.read_csv('C:/Users/User/Desktop/Coding/Projects/27.03.2024 pp/311-service-requests.csv', na_values = na_values, dtype = {'Incident Zip': str})
+#
+# unique_zips = requests['Incident Zip'].unique()
+# print(unique_zips)
+#
+# rows_with_dashes = requests['Incident Zip'].str.contains('-').fillna(False)
+# num_rows_with_dashes = len(requests[rows_with_dashes])
+# print(num_rows_with_dashes)
+#
+# var = requests[rows_with_dashes]['Incident Zip']
+# print(var)
+#
+# long_zip_codes = requests['Incident Zip'].str.len() > 5
+# unique_long_zips = requests['Incident Zip'][long_zip_codes].unique()
+# print(unique_long_zips)
+#
+# requests['Incident Zip'] = requests['Incident Zip'].str.slice(0, 5)
+#
+# var1 = requests[requests['Incident Zip'] == '00000']
+# print(var1)
+#
+# zero_zips = requests['Incident Zip'] == '00000'
+# requests.loc[zero_zips, 'Incident Zip'] = np.nan
+#
+# unique_zips = requests['Incident Zip'].unique()
+# print(unique_zips)
+#
+# zips = requests['Incident Zip']
+# is_close = zips.str.startswith('0') | zips.str.startswith('1')
+# is_far = ~is_close & zips.notnull()
+# print(zips[is_far])
+#
+# print(requests[is_far][['Incident Zip', 'Descriptor', 'City']].sort_values('Incident Zip'))
+#
+# print(requests['City'].str.upper().value_counts())
+
+
+
+
+# - 8.7 - Часть 7: работа с датами и временем
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import numpy as np
+# 
+# plt.style.use('ggplot')
+# plt.rcParams['figure.figsize'] = (15, 5)
+# 
+# popcon = pd.read_csv('https://raw.githubusercontent.com/jvns/pandas-cookbook/master/data/popularity-contest', sep=' ')[:-1]
+# popcon.columns = ['atime', 'ctime', 'package-name', 'mru-program', 'tag']
+# print(popcon[:5])
+# 
+# # преобразуем в целые числа
+# popcon['atime'] = popcon['atime'].astype(int)
+# popcon['ctime'] = popcon['ctime'].astype(int)
+# 
+# popcon['atime'] = pd.to_datetime(popcon['atime'], unit='s')
+# popcon['ctime'] = pd.to_datetime(popcon['ctime'], unit='s')
+# 
+# popcon['atime'].dtype
+# print(popcon[:5])
+# 
+# popcon = popcon[popcon['atime'] > '1970-01-01']
+# nonlibraries = popcon[~popcon['package-name'].str.contains('lib')]
+# print(nonlibraries.sort_values('ctime', ascending=False)[:10])
